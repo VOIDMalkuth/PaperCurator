@@ -13,12 +13,26 @@ SUMMARY_PATH = os.environ.get("SUMMARY_PATH", "paper_summary")
 def build_md(judge_res):
     date = datetime.datetime.now().strftime("%Y-%m-%d")
     md_doc = f"# Paper Summary {date}\n\n"
+    md_doc = "## Important Paper\n\n"
     for idx, (paper_entry_id, judgement) in enumerate(judge_res.items()):
         if judgement["relevance"]:
-            md_doc += "## " + judgement["title"] + "\n\n"
-            md_doc += "Keywords: " + judgement["keywords"] + "\n\n"
-            md_doc += "Summary: " + judgement["summary"] + "\n\n"
-            md_doc += f"Link: {paper_entry_id}\n\n"
+            md_doc += "### " + judgement["title"] + "\n"
+            keywords = map(
+                lambda x: "**" + x.strip() + "**", judgement["keywords"].split(",")
+            )
+            md_doc += "- Keywords: " + ", ".join(keywords) + "\n"
+            md_doc += "- Summary: " + judgement["summary"] + "\n"
+            url = paper_entry_id.strip("v1")
+            md_doc += f"- Link: [{url}]({url})\n\n"
+            md_doc += "*Reason: " + judgement["reason"] + "*\n\n"
+    return md_doc
+
+
+def build_extra_md(judge_res, md_doc):
+    md_doc += "## Potential Paper\n\n"
+    for idx, (paper_entry_id, judgement) in enumerate(judge_res.items()):
+        if not judgement["relevance"]:
+            md_doc += f"- {judgement['title']}: {judgement['reason']}\n"
     return md_doc
 
 
@@ -55,21 +69,25 @@ def do_publish(db: ArxivDB):
         logger.info("No unpublished papers found")
         return
 
+    important_paper_count = len(
+        list(filter(lambda x: paper_dict[x]["relevance"], paper_dict.keys()))
+    )
     date = datetime.datetime.now().strftime("%Y-%m-%d")
-    os.makedirs(SUMMARY_PATH, exist_ok=True)
-    with open(f"{SUMMARY_PATH}/paper_summary_{date}.md", "w") as f:
-        f.write(md_doc)
-
     sc_key = os.environ.get("SC_KEY", "")
     if sc_key == "":
         raise Exception("SC_KEY not set")
     sc_send(
         sc_key,
-        f"Paper Summary {date} [{len(paper_dict)}]",
+        f"Paper Summary {date} [{important_paper_count}]",
         md_doc,
         {"short": f"Summary of arXiv paper of {date}", "noip": 1},
     )
-    logger.info(f"Published {len(paper_dict)} papers")
+    logger.info(f"Published {important_paper_count} papers")
+
+    md_doc = build_extra_md(paper_dict, md_doc)
+    os.makedirs(SUMMARY_PATH, exist_ok=True)
+    with open(f"{SUMMARY_PATH}/paper_summary_{date}.md", "w") as f:
+        f.write(md_doc)
 
     for paper_id in paper_dict.keys():
         db.update_paper(paper_id, feed_sent=1)

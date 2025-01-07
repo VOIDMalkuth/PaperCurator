@@ -107,7 +107,7 @@ class ArxivDB:
     def get_unpublished_papers(self):
         """Get papers filtered by relevance"""
         self.cursor.execute(
-            "SELECT * FROM paper WHERE relevance = 100 and feed_sent = 0"
+            "SELECT * FROM paper WHERE (relevance = 100 or relevance = 2) and feed_sent = 0"
         )
         return self.cursor.fetchall()
 

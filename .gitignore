@@ -1,6 +1,6 @@
 data/
 logs/
-.ruff-cache/
+.ruff_cache/
 __pycache__/
 .env
 venv/
