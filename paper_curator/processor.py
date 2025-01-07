@@ -40,6 +40,7 @@ class PaperSummarizer:
             res = {
                 "relevance": True,
                 "keywords": resp_list[1].strip(),
+                "reason": resp_list[2].strip(),
                 "summary": "".join(resp_list[2:]),
             }
         else:
