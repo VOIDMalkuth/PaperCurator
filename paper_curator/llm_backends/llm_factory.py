@@ -1,13 +1,14 @@
 import os
 
-from llm_backends.deepseek import DeepSeekService
+from llm_backends.deepseek import DeepSeekChatService, DeepSeekReasonerService
 from llm_backends.poe import PoeService
 from llm_backends.qc import QCService
 
 LLM_CHOICES_MAP = {
     "POE": PoeService,
     "QC": QCService,
-    "DEEPSEEK": DeepSeekService,
+    "DEEPSEEK_CHAT": DeepSeekChatService,
+    "DEEPSEEK_REASONER": DeepSeekReasonerService,
 }
 
 LLM_API_KEY_POSTFIX = "_API_KEY"
@@ -30,10 +31,10 @@ def get_llm_service(key: str):
 
 
 def get_judge_llm_service():
-    llm_type = os.environ.get(JUDGE_LLM_CHOICE_KEY, "DEEPSEEK")
+    llm_type = os.environ.get(JUDGE_LLM_CHOICE_KEY, "DEEPSEEK_CHAT")
     return get_llm_service(llm_type)
 
 
 def get_summarize_llm_service():
-    llm_type = os.environ.get(SUMMARIZE_LLM_CHOICE_KEY, "DEEPSEEK")
+    llm_type = os.environ.get(SUMMARIZE_LLM_CHOICE_KEY, "DEEPSEEK_REASONER")
     return get_llm_service(llm_type)

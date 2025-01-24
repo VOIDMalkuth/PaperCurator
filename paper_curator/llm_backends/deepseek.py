@@ -1,34 +1,24 @@
-import json
-
-import requests
 from llm_backends.utils import IntervalTimer
+from llm_backends.openai_service_base import OpenAIServiceBase
 
 
-class DeepSeekService:
-    def __init__(self, api_key):
-        self.api_key = api_key
-        self.timer = IntervalTimer(0.2)
-        self.url = "https://api.deepseek.com/v1/chat/completions"
-        self.headers = {
-            "Authorization": f"Bearer {self.api_key}",
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-        }
+class DeepSeekChatService(OpenAIServiceBase):
+    API_URL = "https://api.deepseek.com/"
+    MODEL_NAME = "deepseek-chat"
 
-    def get_completion(self, prompt, model="deepseek-chat", max_tokens=2048):
-        payload = {
-            "model": model,
-            "max_tokens": max_tokens,
-            "messages": [{"role": "user", "content": prompt}],
-            "stream": False,
-        }
+    def __init__(self, api_key, interval=0.25):
+        super().__init__(
+            api_key, DeepSeekChatService.API_URL, DeepSeekChatService.MODEL_NAME
+        )
+        self.timer = IntervalTimer(interval)
 
-        response = requests.post(self.url, headers=self.headers, json=payload)
-        response.encoding = "utf-8"
 
-        if response.status_code == 200:
-            return json.loads(response.text.split("\n")[0])["choices"][0]["message"][
-                "content"
-            ]
-        else:
-            response.raise_for_status()
+class DeepSeekReasonerService(OpenAIServiceBase):
+    API_URL = "https://api.deepseek.com/"
+    MODEL_NAME = "deepseek-reasoner"
+
+    def __init__(self, api_key, interval=1.5):
+        super().__init__(
+            api_key, DeepSeekReasonerService.API_URL, DeepSeekReasonerService.MODEL_NAME
+        )
+        self.timer = IntervalTimer(interval)

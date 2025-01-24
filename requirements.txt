@@ -3,4 +3,5 @@ fastapi_poe>=0.0.51
 loguru>=0.7.3
 requests>=2.32.3
 schedule>=1.2.0
+openai>=1.60.0
 pytz

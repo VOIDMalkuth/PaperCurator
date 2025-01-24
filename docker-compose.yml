@@ -9,7 +9,8 @@ services:
     environment:
       - TZ=Asia/Shanghai
       - DAILY_RUN_TIME=05:45
-      - DEEPSEEK_API_KEY=<deepseek_api_key>
+      - DEEPSEEK_CHAT_API_KEY=<deepseek_api_key>
+      - DEEPSEEK_REASONER_API_KEY=<deepseek_api_key>
       - SC_KEY=<sc_key>
       - DB_PATH=/data/arxiv.db
       - SUMMARY_PATH=/data/paper_summary/
