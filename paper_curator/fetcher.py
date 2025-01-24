@@ -78,7 +78,7 @@ def fetch_new_papers(db: ArxivDB, last_paper_id=None):
 
     logger.info(f"Fetching new papers from ArXiv, last paper id: {last_paper_id}")
     if last_paper_id is None:
-        paper_list, max_entry_id = fetch_new_from_arxiv_by_date(3)
+        paper_list, max_entry_id = fetch_new_from_arxiv_by_date(2)
     else:
         paper_list, max_entry_id = fetch_new_from_arxiv_by_entry_id(last_paper_id)
 

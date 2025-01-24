@@ -8,27 +8,29 @@ RELEVANCE CRITERIA:
        - acceleration for: LLM, MoE, Diffusion, GNN, CV models, Recommendation Model
    - LLM-specific optimizations:
        - Lossy and lossless KV-Cache optimization
-       - System level enhancement on speculative execution/optimization for the speed of Chain-of-Thought/Early exit strategies
+       - System level enhancement on speculative decoding/optimization for the speed of Chain-of-Thought/Early exit strategies
        - Approximate attention optimization with efficient hardware friendly computation
    - Other System-level optimization:
        - Parallel training/inference strategies
        - MoE serving
        - KVCache reuse
        - Multi-card/node communication
-       - Other optimization that would benefit the end to end inference speed of LLM, especially in serving setting
+       - Other optimization that would benefit the end to end inference speed of Neural Network, especially in serving setting
    - Surveys covering the above topics
 
 2. Exclusion Criteria:
    - Processing-in-memory/in-memory computation/FPGA
    - Privacy-preserving ML (Federated Learning, Trusted Computation)
    - Edge/IoT LLM serving with focus on theoretical queuing analysis
-   - Focus on improving the accuracy of neural network with no emphasis on speed/acceleration
+   - Focus on improving the accuracy/convergence of neural network with no emphasis on speed/acceleration
    - Sparsification/quantization that focus on accuracy *WITHOUT* new hardware friendly design
    - Speedup achieved by new network design itself, not involving hardware/system level optimization
 
-Please make your judgment based on the paper's title and abstract; If you are not sure and the paper involves Generative Model(LLM/MoE/Diffusion), make a conservative judgement that the paper is relevant.
-Output format:
-    Only output "relevant" or "irrelevant".
+Please make your judgment based on the paper's title and abstract; Rate the relevence from 1 to 10, deem the paper relevant if rate >= 7; if the paper involves Generative Model(LLM/MoE/Diffusion), deem the paper relevant if rate >= 6.
+Output format: output 3 lines
+[Concise reasoning for the judgment]
+Rating: [Rating]
+[Only output "relevant" or "irrelevant"]
 
 Paper information:
 Title: {title}
@@ -47,21 +49,21 @@ RELEVANCE CRITERIA:
        - acceleration for: LLM, MoE, Diffusion, GNN, CV models, Recommendation Model
    - LLM-specific optimizations:
        - Lossy and lossless KV-Cache optimization
-       - System level enhancement on speculative execution/optimization for the speed of Chain-of-Thought/Early exit strategies
+       - System level enhancement on speculative decoding/optimization for the speed of Chain-of-Thought/Early exit strategies
        - Approximate attention optimization with efficient hardware friendly computation
    - Other System-level optimization:
        - Parallel training/inference strategies
        - MoE serving
        - KVCache reuse
        - Multi-card/node communication
-       - Other optimization that would benefit the end to end inference speed of LLM, especially in serving setting
+       - Other optimization that would benefit the end to end inference speed of Neural Network, especially in serving setting
    - Surveys covering the above topics
 
 2. Exclusion Criteria:
    - Processing-in-memory/in-memory computation/FPGA
    - Privacy-preserving ML (Federated Learning, Trusted Computation)
    - Edge/IoT LLM serving with focus on theoretical queuing analysis
-   - Focus on improving the accuracy of neural network with no emphasis on speed/acceleration
+   - Focus on improving the accuracy/convergence of neural network with no emphasis on speed/acceleration
    - Sparsification/quantization that focus on accuracy *WITHOUT* new hardware friendly design
    - Speedup achieved by new network design itself, not involving hardware/system level optimization
 
