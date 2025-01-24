@@ -1,3 +1,4 @@
+import re
 import json
 
 from llm_backends.llm_factory import get_judge_llm_service, get_summarize_llm_service
@@ -21,7 +22,7 @@ class PaperJudger:
             res = {"relevance": True}
         else:
             res = {"relevance": False}
-        logger.debug(f"Judged paper {paper_title}: {res}")
+        logger.debug(f"Judged paper [{paper_title}]: {res}")
         return res
 
 
@@ -35,17 +36,19 @@ class PaperSummarizer:
             title=paper_title, abstract=paper_abstract.replace("\n", " ")
         )
         response = self.llm_service.get_completion(question)
+        response = re.sub(r'\s*\n', '\n', response)
         resp_list = response.strip().split("\n")
-        if resp_list[0].strip().lower() == "relevant":
+        relevant = ("relevant" in response.lower()) and ("irrelevant" not in response.lower())
+        if relevant:
             res = {
                 "relevance": True,
-                "keywords": resp_list[1].strip(),
-                "reason": resp_list[2].strip(),
+                "keywords": resp_list[2].strip(),
+                "reason": resp_list[0].strip(),
                 "summary": "".join(resp_list[3:]),
             }
         else:
-            res = {"relevance": False, "reason": "".join(resp_list[1:])}
-        logger.debug(f"Summarized paper {paper_title}: {res}")
+            res = {"relevance": False, "reason": resp_list[0]}
+        logger.debug(f"Summarized paper [{paper_title}]: {res}")
         return res
 
 
@@ -93,7 +96,6 @@ def process_paper(db: ArxivDB):
         paper_title = unsummarized_paper[1]
         paper_abstract = unsummarized_paper[2]
         summarize_result = paper_summarizer.summarize_paper(paper_title, paper_abstract)
-        logger.debug(f"Summarized paper {paper_entry_id}: {summarize_result}")
         relevance = 100 if summarize_result["relevance"] else 2
         summarize_result_json = json.dumps(summarize_result)
         db.update_paper(

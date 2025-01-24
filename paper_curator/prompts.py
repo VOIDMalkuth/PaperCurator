@@ -2,18 +2,15 @@ CLASSIFY_PROMPT = """As a paper assessment assistant, analyze the given paper's 
 
 RELEVANCE CRITERIA:
 1. Primary Focus Areas (any of these qualify):
-   - Model training/inference optimization 
+   - Model training/inference speed optimization
        - including but not limited to frameworks, compilers, code generation, kernels
        - on CPU/GPU/NPU/Accelerator
        - acceleration for: LLM, MoE, Diffusion, GNN, CV models, Recommendation Model
-   - sparsification/quantization with new hardware friendly & computationally efficient training&inference-system/operator/kernel
    - LLM-specific optimizations:
        - Lossy and lossless KV-Cache optimization
-       - Speculative execution
-       - Approximate attention optimization with efficient hardware friendly new kernel
-       - Optimization for speed on Chain-of-Thought
-       - Early exit strategies
-   - System-level optimization:
+       - System level enhancement on speculative execution/optimization for the speed of Chain-of-Thought/Early exit strategies
+       - Approximate attention optimization with efficient hardware friendly computation
+   - Other System-level optimization:
        - Parallel training/inference strategies
        - MoE serving
        - KVCache reuse
@@ -26,6 +23,8 @@ RELEVANCE CRITERIA:
    - Privacy-preserving ML (Federated Learning, Trusted Computation)
    - Edge/IoT LLM serving with focus on theoretical queuing analysis
    - Focus on improving the accuracy of neural network with no emphasis on speed/acceleration
+   - Sparsification/quantization that focus on accuracy *WITHOUT* new hardware friendly design
+   - Speedup achieved by new network design itself, not involving hardware/system level optimization
 
 Please make your judgment based on the paper's title and abstract; If you are not sure and the paper involves Generative Model(LLM/MoE/Diffusion), make a conservative judgement that the paper is relevant.
 Output format:
@@ -42,18 +41,15 @@ CLASSIFY_AND_SUMMARIZE_PROMPT = """As a paper assessment assistant, analyze the 
 
 RELEVANCE CRITERIA:
 1. Primary Focus Areas (any of these qualify):
-   - Model training/inference optimization 
+   - Model training/inference speed optimization
        - including but not limited to frameworks, compilers, code generation, kernels
        - on CPU/GPU/NPU/Accelerator
        - acceleration for: LLM, MoE, Diffusion, GNN, CV models, Recommendation Model
-   - sparsification/quantization with new hardware friendly & computationally efficient training&inference-system/operator/kernel
    - LLM-specific optimizations:
        - Lossy and lossless KV-Cache optimization
-       - Speculative execution
-       - Approximate attention optimization with efficient hardware friendly new kernel
-       - Optimization for speed on Chain-of-Thought
-       - Early exit strategies
-   - System-level optimization:
+       - System level enhancement on speculative execution/optimization for the speed of Chain-of-Thought/Early exit strategies
+       - Approximate attention optimization with efficient hardware friendly computation
+   - Other System-level optimization:
        - Parallel training/inference strategies
        - MoE serving
        - KVCache reuse
@@ -66,6 +62,8 @@ RELEVANCE CRITERIA:
    - Privacy-preserving ML (Federated Learning, Trusted Computation)
    - Edge/IoT LLM serving with focus on theoretical queuing analysis
    - Focus on improving the accuracy of neural network with no emphasis on speed/acceleration
+   - Sparsification/quantization that focus on accuracy *WITHOUT* new hardware friendly design
+   - Speedup achieved by new network design itself, not involving hardware/system level optimization
 
 KEYWORD CLASSIFICATION:
 If relevant, classify using exactly one term from each category:
@@ -74,15 +72,15 @@ If relevant, classify using exactly one term from each category:
 3. Technology (at max 2): [Kernel|Compiler|Quant&Sparse|KVCache|Attention|Speculative|Communication|Schedule|CoT|Other]
 
 OUTPUT FORMAT:
-For relevant papers, only output 4 lines:
+For relevant papers, only output 4 lines, no extra empty line is needed:
+[Concise explanation of why in Chinese]
 relevant
 [Scene], [Model], [Technology]
-[Very concise explanation of why in Chinese]
 [Chinese summary of core contribution and method in <400 characters, no explanation for it relevance is needed]
 
-For irrelevant papers, only output 2 lines:
+For irrelevant papers, only output 2 lines, no extra empty line is needed:
+[Concise explanation of why in Chinese]
 irrelevant
-[Very concise explanation of why in Chinese]
 
 note: sentence in "[]" is instruction for content, do not output "[]" in the final result.
 

@@ -13,7 +13,7 @@ SUMMARY_PATH = os.environ.get("SUMMARY_PATH", "paper_summary")
 def build_md(judge_res):
     date = datetime.datetime.now().strftime("%Y-%m-%d")
     md_doc = f"# Paper Summary {date}\n\n"
-    md_doc = "## Important Paper\n\n"
+    md_doc += "## Important Paper\n\n"
     for idx, (paper_entry_id, judgement) in enumerate(judge_res.items()):
         if judgement["relevance"]:
             md_doc += "### " + judgement["title"] + "\n"

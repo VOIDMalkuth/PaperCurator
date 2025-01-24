@@ -7,7 +7,7 @@ from llm_backends.utils import IntervalTimer
 class DeepSeekService:
     def __init__(self, api_key):
         self.api_key = api_key
-        self.timer = IntervalTimer(0.25)
+        self.timer = IntervalTimer(0.2)
         self.url = "https://api.deepseek.com/v1/chat/completions"
         self.headers = {
             "Authorization": f"Bearer {self.api_key}",
@@ -15,7 +15,7 @@ class DeepSeekService:
             "Accept": "application/json",
         }
 
-    def get_completion(self, prompt, model="deepseek-chat", max_tokens=1024):
+    def get_completion(self, prompt, model="deepseek-chat", max_tokens=2048):
         payload = {
             "model": model,
             "max_tokens": max_tokens,
