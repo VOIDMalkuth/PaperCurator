@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import traceback
 
 import schedule
 from collect_and_publish import collect_and_publish
@@ -29,6 +30,7 @@ def run_script():
     try:
         collect_and_publish()
     except Exception as e:
+        traceback.print_exc()
         logger.error(f"Error running collect_paper_and_publish: {e}")
 
 

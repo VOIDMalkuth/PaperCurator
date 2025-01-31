@@ -62,6 +62,7 @@ def do_publish(db: ArxivDB):
     for paper_tuple in unpublished_paper:
         paper_entry_id = paper_tuple[0]
         paper_res = json.loads(paper_tuple[6])
+        paper_res['title'] = paper_tuple[1]
         paper_dict[paper_entry_id] = paper_res
     md_doc = build_md(paper_dict)
 

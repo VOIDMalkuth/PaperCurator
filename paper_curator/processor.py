@@ -120,6 +120,7 @@ def process_paper(db: ArxivDB):
         summarize_result = paper_summarizer.summarize_paper(paper_title, paper_abstract)
 
         relevance = 100 if summarize_result["relevance"] else 2
+        summarize_result["title"] = paper_title
         summarize_result_json = json.dumps(summarize_result)
         db.update_paper(
             paper_entry_id, relevance=relevance, summary=summarize_result_json
